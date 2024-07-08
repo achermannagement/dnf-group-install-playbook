@@ -37,7 +37,9 @@ class AnsiblePlaybookEmitter:
         results = ""
         results += self._preamble
         results += "\n"
-        for pkg_name in self._dnf_parser.pkg_lists.values():
+        # using list comprehension for flattening the dict_value lists
+        all_pkgs = [x for xs in self._dnf_parser.pkg_lists.values() for x in xs]
+        for pkg_name in all_pkgs:
             results += self.INDENT * self._indent
             results += self.INSTALL_TASK.format(pkg_name=pkg_name)
         results += self.DEFAULT_POSTAMBLE
