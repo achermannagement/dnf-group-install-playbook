@@ -15,7 +15,6 @@ def main(args):
     dnf_output = process.stdout.decode().split('\n')
     for dnf_line in list(filter(None, dnf_output)):
         dnf_parser.parse(dnf_line)
-    breakpoint()
 
 if __name__ == "__main__":
     args = parse_args()
