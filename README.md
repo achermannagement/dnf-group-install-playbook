@@ -10,3 +10,5 @@ It consists of three components:
 - Rudimentary parser of dnf group info output
 - Emitting Ansible playbook compatible YAML based on dnf
 - Command line tool that handles arguments and I/O
+
+I then added a parser for basic system info that is used to print output file metadata in the comments of the playbook.
