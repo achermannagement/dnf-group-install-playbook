@@ -11,10 +11,10 @@ At the very least, it tracks what failed to parse as well
 """
 class DnfGroupInfoParser:
 
-    GROUP_RE = re.compile(r"Group: (\w+)")
-    DESC_RE = re.compile(r"Description: (.*)")
+    GROUP_RE = re.compile(r"Name\s*:\s*(\w+)")
+    DESC_RE = re.compile(r"Description\s*:\s*(.*)")
     # assume each package type is a single word
-    PKG_HEADER_RE = re.compile(r"(\w+) Packages:")
+    PKG_HEADER_RE = re.compile(r"(\w+) packages\s*:")
 
     # This parser assumes an order to dnf group info output
     def __init__(self):
