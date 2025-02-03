@@ -18,18 +18,25 @@ class AnsiblePlaybookEmitter:
 # for Fedora: {} dnf: {}
 """
 
-    DEFAULT_PREAMBLE = {'hosts':'localhost', 'become':'yes', 'become_method': 'sudo'}
-
-    DEFAULT_POSTAMBLE = {} #FIXME
+    DEFAULT_PREAMBLE = {'hosts':'localhost', 'become': True, 'become_method': 'ansible.builtin.sudo'}
 
     def __init__(self, dnf_parser, sys_parser, preamble=None):
         self.preamble_comments = self.PREAMBLE_COMMENTS.format(datetime.now().astimezone(), time.tzname[0], sys_parser.fedora_version, sys_parser.dnf_version)
-        self._preamble = preamble if preamble else self.DEFAULT_PREAMBLE
+        if preamble:
+            self._preamble = {
+                'name': f'Install {dnf_parser.group} dnf group',
+                **preamble
+            }
+        else:
+            self._preamble = {
+                'name': f'Install {dnf_parser.group} dnf group',
+                **self.DEFAULT_PREAMBLE
+            }
         self._dnf_parser = dnf_parser
 
     def emit(self):
         results = []
-        results.append(self.DEFAULT_PREAMBLE)
+        results.append(self._preamble)
         results[0]['tasks'] = []
 
         # using list comprehension for flattening the dict_value lists
