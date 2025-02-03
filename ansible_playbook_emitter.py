@@ -47,4 +47,4 @@ class AnsiblePlaybookEmitter:
                     {'name': f'install {pkg_name}',
                      'package': {'name': pkg_name, 'state': 'present'}})
 
-        return yaml.dump(results)
+        return yaml.safe_dump(results, indent=2, sort_keys=False, default_flow_style=False)
