@@ -3,6 +3,8 @@ Simple emitter for dnf group info into ansible playbook
 
 No I/O, just string is emitted
 """
+from safe_indent_dumper import safe_indent_dump
+
 import yaml
 from datetime import datetime
 import time
@@ -44,7 +46,10 @@ class AnsiblePlaybookEmitter:
 
         for pkg_name in all_pkgs:
             results[0]['tasks'].append(
-                    {'name': f'install {pkg_name}',
-                     'package': {'name': pkg_name, 'state': 'present'}})
+                    {'name': f'Install {pkg_name}',
+                     'ansible.builtin.package':
+                     {'name': pkg_name,
+                      'state': 'present'}
+                     })
 
-        return yaml.safe_dump(results, indent=2, sort_keys=False, default_flow_style=False)
+        return safe_indent_dump(results, sort_keys=False)
