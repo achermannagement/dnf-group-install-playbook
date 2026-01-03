@@ -14,7 +14,7 @@ class DnfGroupInfoParser:
     GROUP_RE = re.compile(r"Name\s*:\s*(\w+)")
     DESC_RE = re.compile(r"Description\s*:\s*(.*)")
     # assume each package type is a single word
-    PKG_HEADER_RE = re.compile(r"(\w+) packages\s*:")
+    PKG_HEADER_RE = re.compile(r"(\w+) packages\s*: (.*)")
     DNF5_PACKAGE = re.compile(r":?\s*(.*)")
 
     # This parser assumes an order to dnf group info output
@@ -46,6 +46,7 @@ class DnfGroupInfoParser:
             self.pkg_types.append(pkg_type)
             self.in_pkgs = True
             self.pkg_lists[pkg_type] = []
+            self.pkg_lists[pkg_type].append(match.group(2))
         elif self.in_pkgs:
             cleaned = re.match(self.DNF5_PACKAGE, cleaned).group(1)
             self.pkg_lists[self.curr_pkg_type].append(cleaned)
